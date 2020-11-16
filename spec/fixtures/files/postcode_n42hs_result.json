@@ -1,0 +1,39 @@
+{
+  "status": 200,
+  "result": {
+    "postcode": "N4 2HS",
+    "quality": 1,
+    "eastings": 532154,
+    "northings": 186710,
+    "country": "England",
+    "nhs_ha": "London",
+    "longitude": -0.094821,
+    "latitude": 51.563791,
+    "european_electoral_region": "London",
+    "primary_care_trust": "City and Hackney Teaching",
+    "region": "London",
+    "lsoa": "Hackney 007F",
+    "msoa": "Hackney 007",
+    "incode": "2HS",
+    "outcode": "N4",
+    "parliamentary_constituency": "Hackney North and Stoke Newington",
+    "admin_district": "Hackney",
+    "parish": "Hackney, unparished area",
+    "admin_county": null,
+    "admin_ward": "Brownswood",
+    "ced": null,
+    "ccg": "NHS City and Hackney",
+    "nuts": "Hackney and Newham",
+    "codes": {
+      "admin_district": "E09000012",
+      "admin_county": "E99999999",
+      "admin_ward": "E05009367",
+      "parish": "E43000202",
+      "parliamentary_constituency": "E14000720",
+      "ccg": "E38000035",
+      "ccg_id": "07T",
+      "ced": "E99999999",
+      "nuts": "UKI41"
+    }
+  }
+}
