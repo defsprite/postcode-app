@@ -2,6 +2,7 @@
 
 class PostcodeValidationsController < ApplicationController
   def new
+    @postcode_validation =  PostcodeValidation.new
   end
 
   def create

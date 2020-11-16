@@ -1,0 +1,5 @@
+<%= form_with model: @postcode_validation, url: postcode_validation_path do |f| %>
+  <%= f.label :postcode %>
+  <%= f.text_field :postcode, label: "Postcode" %>
+  <%= f.submit "Validate Postcode" %>
+<% end %>
