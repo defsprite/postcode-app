@@ -20,7 +20,7 @@ RSpec.describe PostcodeLookupService do
 
       it "returns a successful lookup result" do
         expect(subject).to be_a(PostcodeLookupResult)
-        expect(subject).to be_success
+        expect(subject).to be_valid
       end
 
       it "returns the canonical postcode form" do
@@ -35,11 +35,11 @@ RSpec.describe PostcodeLookupService do
     context "for an invalid postcode" do
       let(:postcode) { "f0 bar" }
       let(:response_body) { file_fixture("postcode_error_result.json").read }
-      let(:response_status) { 404 }
+      let(:response_code) { 404 }
 
       it "returns a non-successful lookup result" do
         expect(subject).to be_a(PostcodeLookupResult)
-        expect(subject).not_to be_success
+        expect(subject).not_to be_valid
       end
 
       it "returns an empty postcode" do
@@ -51,11 +51,11 @@ RSpec.describe PostcodeLookupService do
       let(:postcode) { "se 7qd" }
 
       let(:response_body) { "BOOM!" }
-      let(:response_status) { 500 }
+      let(:response_code) { 500 }
 
-      it "returns a non-successful lookup result" do
+      it "returns a valid lookup result" do
         expect(subject).to be_a(PostcodeLookupResult)
-        expect(subject).not_to be_success
+        expect(subject).not_to be_valid
       end
 
       it "returns an empty postcode" do
@@ -66,6 +66,20 @@ RSpec.describe PostcodeLookupService do
         expect(Rails.logger).to receive(:warn).with(a_string_including("Cannot parse JSON"))
 
         subject
+      end
+    end
+
+    context "when the postcode service errors during request" do
+      let(:postcode) { "se 7qd" }
+      let(:response_code) { 0 }
+
+      it "returns an errored lookup result" do
+        expect(subject).to be_a(PostcodeLookupResult)
+        expect(subject).to be_error
+      end
+
+      it "returns an empty postcode" do
+        expect(subject.canonical_postcode).to be_blank
       end
     end
   end

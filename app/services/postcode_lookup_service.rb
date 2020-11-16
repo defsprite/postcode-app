@@ -5,10 +5,13 @@ class PostcodeLookupService
     response = Typhoeus.get("http://postcodes.io/postcodes/%s" % requestable_postcode(postcode))
     result = parse_json(response.body)
 
+    puts response.inspect
+
     PostcodeLookupResult.new(
       canonical_postcode: result.dig("result", "postcode"),
       lsoa:               result.dig("result", "lsoa"),
-      success?:           result.fetch("status", 0) == 200
+      valid?:             result.fetch("status", 0) == 200,
+      error?:             response.code.zero?
     )
   end
 
