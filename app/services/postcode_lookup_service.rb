@@ -2,8 +2,6 @@ class PostcodeLookupService
 
   def run(postcode)
     response = Typhoeus.get("http://postcodes.io/postcodes/%s" % requestable_postcode(postcode))
-    puts response.inspect
-
     result = parse_json(response.body)
 
     PostcodeLookupResult.new(
