@@ -1,13 +1,14 @@
-class PostcodeLookupService
+# frozen_string_literal: true
 
+class PostcodeLookupService
   def run(postcode)
     response = Typhoeus.get("http://postcodes.io/postcodes/%s" % requestable_postcode(postcode))
     result = parse_json(response.body)
 
     PostcodeLookupResult.new(
       canonical_postcode: result.dig("result", "postcode"),
-      lsoa: result.dig("result", "lsoa"),
-      success?: result.fetch("status", 0) == 200
+      lsoa:               result.dig("result", "lsoa"),
+      success?:           result.fetch("status", 0) == 200
     )
   end
 
