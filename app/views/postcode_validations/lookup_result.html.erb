@@ -1,5 +1,5 @@
-<% if @postcode_validation.available?  %>
-  <span class="success">Success! The postcode <%= @postcode_validation.postcode %> is available.</span>
+<% if @result.available?  %>
+  <span class="success">Success! The postcode <%= @result.canonical_postcode %> is available.</span>
 <% else %>
-  <span class="warning">Oh no! The postcode <%= @postcode_validation.postcode %> is not available at this point.</span>
+  <span class="warning">Oh no! The postcode <%= @result.canonical_postcode %> is not available at this point.</span>
 <% end %>
