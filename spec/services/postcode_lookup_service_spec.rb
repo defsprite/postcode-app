@@ -61,6 +61,12 @@ RSpec.describe PostcodeLookupService do
       it "returns an empty postcode" do
         expect(subject.canonical_postcode).to be_blank
       end
+
+      it "logs an error message" do
+        expect(Rails.logger).to receive(:warn).with(a_string_including("Cannot parse JSON"))
+
+        subject
+      end
     end
   end
 end
