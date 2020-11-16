@@ -13,7 +13,7 @@ RSpec.describe "Postcode validation", type: :system do
     fill_in "Postcode", with: "N4 2HS"
     click_button "Validate Postcode"
 
-    expect(page).to have_text("Success! The postcode given is valid!")
+    expect(page).to have_text("Success! The postcode N4 2HS is valid.")
   end
 
   it "shows an error for an invalid postcode" do
@@ -22,6 +22,6 @@ RSpec.describe "Postcode validation", type: :system do
     fill_in "Postcode", with: "FOO BAR"
     click_button "Validate Postcode"
 
-    expect(page).to have_text("Error! The postcode given is invalid!")
+    expect(page).to have_text("Oh no! The postcode FOO BAR is invalid.")
   end
 end
