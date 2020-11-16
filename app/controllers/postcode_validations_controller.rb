@@ -8,7 +8,12 @@ class PostcodeValidationsController < ApplicationController
   def create
     @postcode_validation =  PostcodeValidation.new(postcode_validation_params)
 
-    render "lookup_result"
+    if @postcode_validation.valid?
+      render "lookup_result"
+    else
+      flash[:error] = "Oh no! The postcode #{@postcode_validation.postcode} is invalid."
+      redirect_to new_postcode_validation_path
+    end
   end
 
   private
