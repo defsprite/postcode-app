@@ -4,6 +4,10 @@ class PostcodeValidation
   attr_accessor :postcode
 
   def valid?
+    postcode.present?
+  end
+
+  def available?
     false
   end
 end
