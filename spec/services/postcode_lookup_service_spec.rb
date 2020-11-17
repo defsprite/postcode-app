@@ -52,7 +52,6 @@ RSpec.describe PostcodeLookupService do
 
     context "for a specifically allowed postcode" do
       let(:postcode) { "sh24 1aa" }
-
     end
 
     context "for an invalid postcode" do

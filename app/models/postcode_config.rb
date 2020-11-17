@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class PostcodeConfig
   def self.extra_postcodes
-    full_config["extra_postcodes"].map(&:strip)
+    @extra_postcodes ||= file_content["extra_postcodes"].map(&:strip)
   end
 
   def self.lsoa_prefixes
-    full_config["lsoa_prefixes"].map(&:strip)
+    @lsoa_prefixes ||= file_content["lsoa_prefixes"].map(&:strip)
   end
 
-  def self.full_config
-    @full_config ||= YAML.safe_load(File.open(Rails.root.join("config", "postcodes.yml")))
+  def self.file_content
+    @file_content ||= YAML.safe_load(File.open(Rails.root.join("config", "postcodes.yml")))
   end
 end

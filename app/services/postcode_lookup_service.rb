@@ -8,7 +8,7 @@ class PostcodeLookupService
   end
 
   def run
-    if extra_postcodes.any? { |extra_code| extra_code == normalised_postcode }
+    if extra_postcodes.any? {|extra_code| extra_code == normalised_postcode }
       PostcodeLookupResult.new(postcode: normalised_postcode, valid: true, available: true, api_error: false)
     else
       api_lookup
@@ -30,7 +30,7 @@ class PostcodeLookupService
   def lsoa_available?(lsoa)
     return false if lsoa.blank?
 
-    lsoa_prefixes.any? { |prefix| lsoa.start_with? prefix }
+    lsoa_prefixes.any? {|prefix| lsoa.start_with? prefix }
   end
 
   private
@@ -40,7 +40,7 @@ class PostcodeLookupService
   end
 
   def extra_postcodes
-    @extra_postcodes ||= PostcodeConfig.extra_postcodes.map { |pc| pc.gsub(/\s/, '').upcase }
+    @extra_postcodes ||= PostcodeConfig.extra_postcodes.map {|pc| pc.gsub(/\s/, "").upcase }
   end
 
   def parse_json(str)

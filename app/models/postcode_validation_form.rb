@@ -5,8 +5,8 @@ class PostcodeValidationForm
 
   attr_accessor :postcode
 
-  def initialize(attrs = {}, lookup_service_class = PostcodeLookupService)
-    @lookup_service_class = lookup_service_class
+  def initialize(attrs={}, lookup_service_klass=PostcodeLookupService)
+    @lookup_service_klass = lookup_service_klass
     super(attrs)
   end
 
@@ -15,11 +15,12 @@ class PostcodeValidationForm
   end
 
   def valid?
-    postcode.present? && !result.error? && result.valid?
+    postcode.present? && result.valid?
   end
 
-  def flash_message
-    return "Oh no! We are currently unable to look up postcodes, please check back later." if result.error?
+  def error_message
+    return "Please enter a postcode." if postcode.blank?
+    return "Oh no! We are currently unable to look up postcodes, please check back later." if result.api_error?
     return "Oh no! The postcode #{postcode} is invalid." unless result.valid?
 
     nil
@@ -28,6 +29,6 @@ class PostcodeValidationForm
   private
 
   def run_lookup
-    @lookup_service_class.new.run(postcode)
+    @lookup_service_klass.new(postcode: postcode).run
   end
 end
