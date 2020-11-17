@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
-PostcodeLookupResult = Struct.new(:canonical_postcode, :lsoa, :valid?, :error?, keyword_init: true) do
+class PostcodeLookupResult
+  attr_accessor :postcode, :valid, :available, :api_error
 
-  def available?
-    return false if lsoa.nil?
-    return true if PostcodeConfig.lsoa_prefixes.any? { |prefix| lsoa.start_with? prefix }
+  alias valid? valid
+  alias available? available
+  alias api_error? api_error
 
-    PostcodeConfig.extra_postcodes.any? { |extra| extra == canonical_postcode }
+  def initialize(postcode:, valid:, available:, api_error:)
+    @postcode  = postcode
+    @valid     = valid
+    @available = available
+    @api_error = api_error
   end
 end

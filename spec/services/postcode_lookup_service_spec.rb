@@ -12,9 +12,9 @@ RSpec.describe PostcodeLookupService do
   end
 
   describe ".run" do
-    subject { described_class.new.run(postcode) }
+    subject { described_class.new(postcode: postcode).run }
 
-    context "for a valid postcode" do
+    context "for a valid but unavailable postcode" do
       let(:postcode) { "n4 2hs" }
       let(:response_body) { file_fixture("postcode_n42hs_result.json").read }
 
@@ -24,12 +24,35 @@ RSpec.describe PostcodeLookupService do
       end
 
       it "returns the canonical postcode form" do
-        expect(subject.canonical_postcode).to eq("N4 2HS")
+        expect(subject.postcode).to eq("N4 2HS")
       end
 
-      it "returns the LSOA" do
-        expect(subject.lsoa).to eq("Hackney 007F")
+      it "returns the availability" do
+        expect(subject).not_to be_available
       end
+    end
+
+    context "for a valid and available postcode" do
+      let(:postcode) { "se1 7qd" }
+      let(:response_body) { file_fixture("postcode_se17qd_result.json").read }
+
+      it "returns a successful lookup result" do
+        expect(subject).to be_a(PostcodeLookupResult)
+        expect(subject).to be_valid
+      end
+
+      it "returns the canonical postcode form" do
+        expect(subject.postcode).to eq("SE1 7QD")
+      end
+
+      it "returns the availability" do
+        expect(subject).to be_available
+      end
+    end
+
+    context "for a specifically allowed postcode" do
+      let(:postcode) { "sh24 1aa" }
+
     end
 
     context "for an invalid postcode" do
@@ -43,23 +66,24 @@ RSpec.describe PostcodeLookupService do
       end
 
       it "returns an empty postcode" do
-        expect(subject.canonical_postcode).to be_blank
+        expect(subject.postcode).to be_blank
       end
     end
 
     context "when the postcode service returns invalid JSON" do
-      let(:postcode) { "se 7qd" }
+      let(:postcode) { "se1 7qd" }
 
       let(:response_body) { "BOOM!" }
       let(:response_code) { 500 }
 
-      it "returns a valid lookup result" do
+      it "returns an api errored lookup result" do
         expect(subject).to be_a(PostcodeLookupResult)
         expect(subject).not_to be_valid
+        expect(subject).to be_api_error
       end
 
       it "returns an empty postcode" do
-        expect(subject.canonical_postcode).to be_blank
+        expect(subject.postcode).to be_blank
       end
 
       it "logs an error message" do
@@ -69,17 +93,17 @@ RSpec.describe PostcodeLookupService do
       end
     end
 
-    context "when the postcode service errors during request" do
+    context "when the postcode.io service errors during request" do
       let(:postcode) { "se 7qd" }
       let(:response_code) { 0 }
 
-      it "returns an errored lookup result" do
+      it "returns an api errored lookup result" do
         expect(subject).to be_a(PostcodeLookupResult)
-        expect(subject).to be_error
+        expect(subject).to be_api_error
       end
 
       it "returns an empty postcode" do
-        expect(subject.canonical_postcode).to be_blank
+        expect(subject.postcode).to be_blank
       end
     end
   end
