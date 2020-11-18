@@ -16,12 +16,36 @@ $ bundle exec rails server
 $ open "http://localhost:3000/postcode_validation/new"
 ```
  
+## Docker
+
+Should you have Docker installed you can build a development docker image with the following command (issued in the 
+top-level directory of the project):
+```shell script
+$ docker build -t sh24/postcode-app:latest .
+```
+
+After that, you can now start the server:
+```shell script
+$ docker run --rm -p 3000:3000 sh24/postcode-app:latest
+```
+Voila! Pointing your browser to http://localhost:3000/postcode_validation/new should show the validation form.
+
+To run the specs:
+```shell script
+docker run --rm sh24/postcode-app:latest rspec
+```
+
 ## Local Installation
 
 ### Preconditions
 
 In order to run the app locally and install gem dependencies, you will need Ruby version 2.7 and basic build tooling 
-such as make and and gcc. No database is needed
+such as make and and gcc. You may need to install the following dependencies with their development header files:
+
+- curl
+- sqlite3
+
+This depends highly on your local system, on an Ubuntu Linux this could be `apt-get install libcurl libcurl-dev` 
 
 ### Installing gem dependencies
 
