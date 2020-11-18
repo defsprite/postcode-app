@@ -1,7 +1,7 @@
 # Postcode App
 
-A small Rails-based webapp to resolve UK postcodes and show whether a postcodes is either within a specific 
-Lower Layer Super Output Area (LSOA) prefix or a previously configured allowed list.
+A small Rails-based webapp to validate UK postcodes and show whether a postcode is located either within a certain 
+Lower Layer Super Output Area (LSOA) prefix or included in a previously configured allow-list.
 
 ## TL;DR
 
@@ -31,6 +31,10 @@ This project uses https://bundler.io/ to manage dependent ruby gems:
 $ bundle install
 ```
 
+### Database
+
+No database setup or seeding is needed at this point.
+
 ### Starting the server
 
 To start the web app on port 1234: 
@@ -57,4 +61,4 @@ extra_postcodes:
 There is no CI pipeline yet, this project is used for local development only at this time. 
 
 ## Deployment
-There is no setup for a production or staging system yet, this project is used for local development only at this time. 
+There is no setup for a production or staging system yet. 
